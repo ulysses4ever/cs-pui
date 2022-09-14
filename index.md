@@ -42,17 +42,39 @@ If you are considering entering the job market, I'd encourage you to visit the [
 💡 **Deadlines are treated very differently between institutions**. Read carefully. For example, I _strongly_ encourage you to email search chairs if you're interested in positions that appear to have passed - they might still be open!
 {: .notice .notice-blue}
 
-{% capture table-style %}
-{% include deadlines.md %}
-{% endcapture %}
-<div class="styled-table"> {{ table-style | markdownify }} </div>
+{% assign deadline_sorted_posts = site.posts | sort: 'deadline' | reverse %}
+<div class="styled-table">
+  <table>
+  <thead>
+    <tr>
+      <th style="text-align: left"><strong>Institution</strong></th>
+      <th style="text-align: left"><strong>Location</strong></th>
+      <th style="text-align: left"><strong>App Deadline</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in deadline_sorted_posts %}
+    <tr>
+      <td style="text-align: left"><a href="#{{ post.tag }}">{{ post.title }}</a></td>
+      <td style="text-align: left">{{ post.location }}</td>
+      <td style="text-align: left">{{ post.deadline | date: "%m/%d/%Y" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+</div>
 
 
 ------------
 
 ## 📣  Ads, Links, and Locations (_alphabetical order_) 
 
-{% capture job-listing %}
-{% include descriptions.md %}
-{% endcapture %}
-<div class="jobs"> {{ job-listing | markdownify }} </div>
+{% assign alpha_sorted_posts = site.posts | sort: 'institution' | reverse %}
+<div class="jobs">
+{% for post in alpha_sorted_posts %}
+  <h3 id="{{ post.tag }}">{{ post.title }}</h3>
+  {{ post.description | markdownify }}
+  <p><a href="{{ post.link }}" class="button-job">Full Job Posting</a>
+  <a href="#deadlines"><em>back to all deadlines</em></a></p>
+{% endfor %}
+</div>
